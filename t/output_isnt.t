@@ -1,5 +1,5 @@
 use Test::Tester;
-use Test::More tests => 168;
+use Test::More tests => 336;
 use Test::Output;
 
 use strict;
@@ -17,7 +17,7 @@ check_test( sub {
               ok => 1,
               name => 'Testing STDOUT',
               diag => '',
-            },'STDOUT not equal success'
+            },'sub STDOUT not equal success'
           );
 
 check_test( sub {
@@ -33,7 +33,7 @@ check_test( sub {
               ok => 1,
               name => 'Testing STDERR',
               diag => '',
-            },'STDERR not equal success'
+            },'sub STDERR not equal success'
           );
 
 check_test( sub {
@@ -49,7 +49,7 @@ check_test( sub {
               ok => 1,
               name => 'Testing STDOUT & STDERR',
               diag => '',
-            },'STDOUT & STDERR not equal success'
+            },'sub STDOUT & STDERR not equal success'
           );
 
 check_test( sub {
@@ -64,7 +64,7 @@ check_test( sub {
               ok => 1,
               name => 'Testing STDOUT printf',
               diag => '',
-            },'STDOUT printf not equal success'
+            },'sub STDOUT printf not equal success'
           );
 
 check_test( sub {
@@ -79,7 +79,7 @@ check_test( sub {
               ok => 1,
               name => 'Testing STDERR printf',
               diag => '',
-            },'STDERR printf not equal success'
+            },'sub STDERR printf not equal success'
           );
 
 check_test( sub {
@@ -95,7 +95,7 @@ check_test( sub {
               ok => 0,
               name => 'Testing STDOUT & STDERR print',
               diag => "STDOUT:\nTEST OUT - 25\nmatching:\nTEST OUT - 25\nnot expected\nSTDERR:\nTEST OUT - 25\nmatching:\nTEST OUT - 25\nnot expected\n",
-            },'STDOUT & STDERR matches failure'
+            },'sub STDOUT & STDERR matches failure'
           );
 
 check_test( sub {
@@ -110,7 +110,7 @@ check_test( sub {
               ok => 0,
               name => 'Testing STDOUT failure',
               diag => "STDOUT:\nTEST OUT\nmatching:\nTEST OUT\nnot expected\n",
-            },'STDOUT matches failure'
+            },'sub STDOUT matches failure'
           );
 
 check_test( sub {
@@ -125,7 +125,7 @@ check_test( sub {
               ok => 0,
               name => 'Testing STDERR failure',
               diag => "STDERR:\nTEST OUT\nmatching:\nTEST OUT\nnot expected\n",
-            },'STDERR matches failure'
+            },'sub STDERR matches failure'
           );
 
 check_test( sub {
@@ -140,7 +140,7 @@ check_test( sub {
               ok => 1,
               name => 'Testing STDERR failure',
               diag => '',
-            },'STDOUT & STDERR not matching success'
+            },'sub STDOUT & STDERR not matching success'
           );
 
 check_test( sub {
@@ -155,7 +155,7 @@ check_test( sub {
               ok => 0,
               name => 'Testing STDERR failure',
               diag => "STDERR:\n\nmatching:\n\nnot expected\n",
-            },'STDERR matches failure'
+            },'sub STDERR matches failure'
           );
 
 check_test( sub {
@@ -170,7 +170,7 @@ check_test( sub {
               ok => 0,
               name => 'Testing STDERR failure',
               diag => "STDOUT:\n\nmatching:\n\nnot expected\n",
-            },'STDOUT matches failure'
+            },'sub STDOUT matches failure'
           );
 
 check_test( sub {
@@ -184,7 +184,7 @@ check_test( sub {
               ok => 0,
               name => 'Testing STDERR failure',
               diag => "STDOUT:\n\nmatching:\n\nnot expected\nSTDERR:\n\nmatching:\n\nnot expected\n",
-            },'STDOUT & STDERR matches failure'
+            },'sub STDOUT & STDERR matches failure'
           );
 
 check_test( sub {
@@ -198,7 +198,7 @@ check_test( sub {
               ok => 1,
               name => 'Testing STDOUT',
               diag => '',
-            },'STDOUT not equal success'
+            },'block STDOUT not equal success'
           );
 
 check_test( sub {
@@ -213,7 +213,7 @@ check_test( sub {
               ok => 1,
               name => 'Testing STDERR',
               diag => '',
-            },'STDERR not equal success'
+            },'block STDERR not equal success'
           );
 
 check_test( sub {
@@ -228,7 +228,7 @@ check_test( sub {
               ok => 1,
               name => 'Testing STDOUT & STDERR',
               diag => '',
-            },'STDOUT & STDERR not equal success'
+            },'block STDOUT & STDERR not equal success'
           );
 
 check_test( sub {
@@ -242,7 +242,7 @@ check_test( sub {
               ok => 1,
               name => 'Testing STDOUT printf',
               diag => '',
-            },'STDOUT printf not equal success'
+            },'block STDOUT printf not equal success'
           );
 
 check_test( sub {
@@ -256,7 +256,7 @@ check_test( sub {
               ok => 1,
               name => 'Testing STDERR printf',
               diag => '',
-            },'STDERR printf not equal success'
+            },'block STDERR printf not equal success'
           );
 
 check_test( sub {
@@ -271,7 +271,7 @@ check_test( sub {
               ok => 0,
               name => 'Testing STDOUT & STDERR print',
               diag => "STDOUT:\nTEST OUT - 25\nmatching:\nTEST OUT - 25\nnot expected\nSTDERR:\nTEST OUT - 25\nmatching:\nTEST OUT - 25\nnot expected\n",
-            },'STDOUT & STDERR matches failure'
+            },'block STDOUT & STDERR matches failure'
           );
 
 check_test( sub {
@@ -285,7 +285,7 @@ check_test( sub {
               ok => 0,
               name => 'Testing STDOUT failure',
               diag => "STDOUT:\nTEST OUT\nmatching:\nTEST OUT\nnot expected\n",
-            },'STDOUT matches failure'
+            },'block STDOUT matches failure'
           );
 
 check_test( sub {
@@ -299,7 +299,7 @@ check_test( sub {
               ok => 0,
               name => 'Testing STDERR failure',
               diag => "STDERR:\nTEST OUT\nmatching:\nTEST OUT\nnot expected\n",
-            },'STDERR matches failure'
+            },'block STDERR matches failure'
           );
 
 check_test( sub {
@@ -313,7 +313,7 @@ check_test( sub {
               ok => 1,
               name => 'Testing STDERR failure',
               diag => '',
-            },'STDOUT & STDERR not matching success'
+            },'block STDOUT & STDERR not matching success'
           );
 
 check_test( sub {
@@ -327,7 +327,7 @@ check_test( sub {
               ok => 0,
               name => 'Testing STDERR failure',
               diag => "STDERR:\n\nmatching:\n\nnot expected\n",
-            },'STDERR matches failure'
+            },'block STDERR matches failure'
           );
 
 check_test( sub {
@@ -341,7 +341,7 @@ check_test( sub {
               ok => 0,
               name => 'Testing STDERR failure',
               diag => "STDOUT:\n\nmatching:\n\nnot expected\n",
-            },'STDOUT matches failure'
+            },'block STDOUT matches failure'
           );
 
 check_test( sub {
@@ -354,5 +354,359 @@ check_test( sub {
               ok => 0,
               name => 'Testing STDERR failure',
               diag => "STDOUT:\n\nmatching:\n\nnot expected\nSTDERR:\n\nmatching:\n\nnot expected\n",
-            },'STDOUT & STDERR matches failure'
+            },'block STDOUT & STDERR matches failure'
+          );
+
+check_test( sub {
+            output_isnt(sub {
+                        system("perl", "-e", "print qq(TEST OUT)");
+                        system("perl", "-e", "print STDERR qq(TEST OUT)")},
+                      "TEST OUT STDOUT\n",
+                      undef,
+                      'Testing STDOUT'
+                    )
+            },{
+              ok => 1,
+              name => 'Testing STDOUT',
+              diag => '',
+            },'sub system STDOUT not equal success'
+          );
+
+check_test( sub {
+            output_isnt(sub {
+                        system("perl", "-e", "print qq(TEST OUT)");
+                        system("perl", "-e", "print STDERR qq(TEST OUT)");
+                      },
+                      undef,
+                      "TEST OUT STDERR\n",
+                      'Testing STDERR'
+                    )
+            },{
+              ok => 1,
+              name => 'Testing STDERR',
+              diag => '',
+            },'sub system STDERR not equal success'
+          );
+
+check_test( sub {
+            output_isnt(sub {
+                        system("perl", "-e", "print qq(TEST OUT)");
+                        system("perl", "-e", "print STDERR qq(TEST ERR)");
+                      },
+                      "TEST OUT STDOUT\n",
+                      "TEST ERR STDERR\n",
+                      'Testing STDOUT & STDERR'
+                    )
+            },{
+              ok => 1,
+              name => 'Testing STDOUT & STDERR',
+              diag => '',
+            },'sub system STDOUT & STDERR not equal success'
+          );
+
+check_test( sub {
+            output_isnt(sub {
+                        system("perl", "-e", "printf qq(TEST OUT - %d), 25");
+                        system("perl", "-e", "print STDERR qq(TEST OUT)")},
+                      "TEST OUT - 42\n",
+                      undef,
+                      'Testing STDOUT printf'
+                    )
+            },{
+              ok => 1,
+              name => 'Testing STDOUT printf',
+              diag => '',
+            },'sub system STDOUT printf not equal success'
+          );
+
+check_test( sub {
+            output_isnt(sub {
+                        system("perl", "-e", "printf STDERR qq(TEST OUT - %d), 25");
+                      },
+                      undef,
+                      "TEST OUT - 42\n",
+                      'Testing STDERR printf'
+                    )
+            },{
+              ok => 1,
+              name => 'Testing STDERR printf',
+              diag => '',
+            },'sub system STDERR printf not equal success'
+          );
+
+check_test( sub {
+            output_isnt(sub {
+                        system("perl", "-e", "print qq(TEST OUT - 25)");
+                        system("perl", "-e", "print STDERR qq(TEST OUT - 25)");
+                      },
+                      "TEST OUT - 25",
+                      "TEST OUT - 25",
+                      'Testing STDOUT & STDERR print'
+                    )
+            },{
+              ok => 0,
+              name => 'Testing STDOUT & STDERR print',
+              diag => "STDOUT:\nTEST OUT - 25\nmatching:\nTEST OUT - 25\nnot expected\nSTDERR:\nTEST OUT - 25\nmatching:\nTEST OUT - 25\nnot expected\n",
+            },'sub system STDOUT & STDERR matches failure'
+          );
+
+check_test( sub {
+            output_isnt(sub {
+                        system("perl", "-e", "print qq(TEST OUT)");
+                        system("perl", "-e", "print STDERR qq(TEST OUT)")},
+                      "TEST OUT",
+                      '',
+                      'Testing STDOUT failure'
+                    )
+            }, {
+              ok => 0,
+              name => 'Testing STDOUT failure',
+              diag => "STDOUT:\nTEST OUT\nmatching:\nTEST OUT\nnot expected\n",
+            },'sub system STDOUT matches failure'
+          );
+
+check_test( sub {
+            output_isnt(sub {
+                        system("perl", "-e", "print qq(TEST OUT)");
+                        system("perl", "-e", "print STDERR qq(TEST OUT)")},
+                      '',
+                      "TEST OUT",
+                      'Testing STDERR failure'
+                    )
+            }, {
+              ok => 0,
+              name => 'Testing STDERR failure',
+              diag => "STDERR:\nTEST OUT\nmatching:\nTEST OUT\nnot expected\n",
+            },'sub system STDERR matches failure'
+          );
+
+check_test( sub {
+            output_isnt(sub {
+                        system("perl", "-e", "print qq(TEST OUT)");
+                        system("perl", "-e", "print STDERR qq(TEST OUT)")},
+                      undef,
+                      undef,
+                      'Testing STDERR failure'
+                    )
+            }, {
+              ok => 1,
+              name => 'Testing STDERR failure',
+              diag => '',
+            },'sub system STDOUT & STDERR not matching success'
+          );
+
+check_test( sub {
+            output_isnt(sub {
+                        system("perl", "-e", "print qq(TEST OUT)");
+                      },
+                      undef,
+                      undef,
+                      'Testing STDERR failure'
+                    )
+            }, {
+              ok => 0,
+              name => 'Testing STDERR failure',
+              diag => "STDERR:\n\nmatching:\n\nnot expected\n",
+            },'sub system STDERR matches failure'
+          );
+
+check_test( sub {
+            output_isnt(sub {
+                        system("perl", "-e", "print STDERR qq(TEST OUT)");
+                      },
+                      undef,
+                      undef,
+                      'Testing STDERR failure'
+                    )
+            }, {
+              ok => 0,
+              name => 'Testing STDERR failure',
+              diag => "STDOUT:\n\nmatching:\n\nnot expected\n",
+            },'sub system STDOUT matches failure'
+          );
+
+check_test( sub {
+            output_isnt(sub {
+                        system("perl", "-e", "exit 0");
+                      },
+                      undef,
+                      undef,
+                      'Testing STDERR failure'
+                    )
+            }, {
+              ok => 0,
+              name => 'Testing STDERR failure',
+              diag => "STDOUT:\n\nmatching:\n\nnot expected\nSTDERR:\n\nmatching:\n\nnot expected\n",
+            },'sub system STDOUT & STDERR matches failure'
+          );
+
+check_test( sub {
+            output_isnt {
+                        system("perl", "-e", "print qq(TEST OUT)");
+                        system("perl", "-e", "print STDERR qq(TEST OUT)")}
+                      "TEST OUT STDOUT\n",
+                      undef,
+                      'Testing STDOUT'
+            },{
+              ok => 1,
+              name => 'Testing STDOUT',
+              diag => '',
+            },'block system STDOUT not equal success'
+          );
+
+check_test( sub {
+            output_isnt {
+                        system("perl", "-e", "print qq(TEST OUT)");
+                        system("perl", "-e", "print STDERR qq(TEST OUT)");
+                      }
+                      undef,
+                      "TEST OUT STDERR\n",
+                      'Testing STDERR'
+            },{
+              ok => 1,
+              name => 'Testing STDERR',
+              diag => '',
+            },'block system STDERR not equal success'
+          );
+
+check_test( sub {
+            output_isnt {
+                        system("perl", "-e", "print qq(TEST OUT)");
+                        system("perl", "-e", "print STDERR qq(TEST ERR)");
+                      }
+                      "TEST OUT STDOUT",
+                      "TEST ERR STDERR",
+                      'Testing STDOUT & STDERR'
+            },{
+              ok => 1,
+              name => 'Testing STDOUT & STDERR',
+              diag => '',
+            },'block system STDOUT & STDERR not equal success'
+          );
+
+check_test( sub {
+            output_isnt {
+                        system("perl", "-e", "printf qq(TEST OUT - %d), 25");
+                        system("perl", "-e", "print STDERR qq(TEST OUT)")}
+                      "TEST OUT - 42\n",
+                      undef,
+                      'Testing STDOUT printf'
+            },{
+              ok => 1,
+              name => 'Testing STDOUT printf',
+              diag => '',
+            },'block system STDOUT printf not equal success'
+          );
+
+check_test( sub {
+            output_isnt {
+                        system("perl", "-e", "printf STDERR qq(TEST OUT - %d), 25");
+                      }
+                      undef,
+                      "TEST OUT - 42\n",
+                      'Testing STDERR printf'
+            },{
+              ok => 1,
+              name => 'Testing STDERR printf',
+              diag => '',
+            },'block system STDERR printf not equal success'
+          );
+
+check_test( sub {
+            output_isnt {
+                        system("perl", "-e", "print qq(TEST OUT - 25)");
+                        system("perl", "-e", "printf STDERR qq(TEST OUT - 25)");
+                      }
+                      "TEST OUT - 25",
+                      "TEST OUT - 25",
+                      'Testing STDOUT & STDERR print'
+            },{
+              ok => 0,
+              name => 'Testing STDOUT & STDERR print',
+              diag => "STDOUT:\nTEST OUT - 25\nmatching:\nTEST OUT - 25\nnot expected\nSTDERR:\nTEST OUT - 25\nmatching:\nTEST OUT - 25\nnot expected\n",
+            },'block system STDOUT & STDERR matches failure'
+          );
+
+check_test( sub {
+            output_isnt {
+                        system("perl", "-e", "print qq(TEST OUT)");
+                        system("perl", "-e", "print STDERR qq(TEST OUT)")}
+                      "TEST OUT",
+                      '',
+                      'Testing STDOUT failure'
+            }, {
+              ok => 0,
+              name => 'Testing STDOUT failure',
+              diag => "STDOUT:\nTEST OUT\nmatching:\nTEST OUT\nnot expected\n",
+            },'block system STDOUT matches failure'
+          );
+
+check_test( sub {
+            output_isnt {
+                        system("perl", "-e", "print qq(TEST OUT)");
+                        system("perl", "-e", "print STDERR qq(TEST OUT)")}
+                      '',
+                      "TEST OUT",
+                      'Testing STDERR failure'
+            }, {
+              ok => 0,
+              name => 'Testing STDERR failure',
+              diag => "STDERR:\nTEST OUT\nmatching:\nTEST OUT\nnot expected\n",
+            },'block system STDERR matches failure'
+          );
+
+check_test( sub {
+            output_isnt {
+                        system("perl", "-e", "print qq(TEST OUT)");
+                        system("perl", "-e", "print STDERR qq(TEST OUT)")}
+                      undef,
+                      undef,
+                      'Testing STDERR failure'
+            }, {
+              ok => 1,
+              name => 'Testing STDERR failure',
+              diag => '',
+            },'block system STDOUT & STDERR not matching success'
+          );
+
+check_test( sub {
+            output_isnt {
+                        system("perl", "-e", "print qq(TEST OUT)");
+                      }
+                      undef,
+                      undef,
+                      'Testing STDERR failure'
+            }, {
+              ok => 0,
+              name => 'Testing STDERR failure',
+              diag => "STDERR:\n\nmatching:\n\nnot expected\n",
+            },'block system STDERR matches failure'
+          );
+
+check_test( sub {
+            output_isnt {
+                        system("perl", "-e", "print STDERR qq(TEST OUT)");
+                      }
+                      undef,
+                      undef,
+                      'Testing STDERR failure'
+            }, {
+              ok => 0,
+              name => 'Testing STDERR failure',
+              diag => "STDOUT:\n\nmatching:\n\nnot expected\n",
+            },'block system STDOUT matches failure'
+          );
+
+check_test( sub {
+            output_isnt {
+                        system("perl", "-e", "exit 0");
+                      }
+                      undef,
+                      undef,
+                      'Testing STDERR failure'
+            }, {
+              ok => 0,
+              name => 'Testing STDERR failure',
+              diag => "STDOUT:\n\nmatching:\n\nnot expected\nSTDERR:\n\nmatching:\n\nnot expected\n",
+            },'block system STDOUT & STDERR matches failure'
           );

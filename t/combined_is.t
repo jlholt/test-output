@@ -1,5 +1,5 @@
 use Test::Tester;
-use Test::More tests => 98;
+use Test::More tests => 196;
 use Test::Output;
 
 use strict;
@@ -7,60 +7,60 @@ use warnings;
 
 check_test( sub {
             combined_is(sub {
-                        print "TEST OUT\n";
+                        print "TEST OUT";
                       },
-                      "TEST OUT\n",
+                      "TEST OUT",
                       'Testing STDOUT'
                     )
             },{
               ok => 1,
               name => 'Testing STDOUT',
               diag => '',
-            },'STDOUT matches success'
+            },'sub STDOUT matches success'
           );
 
 check_test( sub {
             combined_is(sub {
-                        print STDERR "TEST OUT\n";
+                        print STDERR "TEST OUT";
                       },
-                      "TEST OUT\n",
+                      "TEST OUT",
                       'Testing STDERR'
                     )
             },{
               ok => 1,
               name => 'Testing STDERR',
               diag => '',
-            },'STDERR matches success'
+            },'sub STDERR matches success'
           );
 
 check_test( sub {
             combined_is(sub {
-                        print "TEST OUT\n"; 
-                        print STDERR "TEST ERR\n";
-                        print "TEST AGAIN\n"; 
+                        print "TEST OUT"; 
+                        print STDERR "TEST ERR";
+                        print "TEST AGAIN"; 
                       },
-                      "TEST OUT\nTEST ERR\nTEST AGAIN\n",
+                      "TEST OUTTEST ERRTEST AGAIN",
                       'Testing STDOUT & STDERR'
                     )
             },{
               ok => 1,
               name => 'Testing STDOUT & STDERR',
               diag => '',
-            },'STDOUT & STDERR match success'
+            },'sub STDOUT & STDERR match success'
           );
 
 check_test( sub {
             combined_is(sub {
-                        printf("TEST OUT - %d\n",25);
+                        printf("TEST OUT - %d",25);
                       },
-                      "TEST OUT - 25\n",
+                      "TEST OUT - 25",
                       'Testing STDOUT printf'
                     )
             },{
               ok => 1,
               name => 'Testing STDOUT printf',
               diag => '',
-            },'STDOUT printf match success'
+            },'sub STDOUT printf match success'
           );
 
 check_test( sub {
@@ -74,7 +74,7 @@ check_test( sub {
               ok => 0,
               name => 'Testing STDOUT failure',
               diag => "STDOUT & STDERR are:\nTEST OUT\nnot:\nTEST OUT STDOUT\nas expected\n",
-            },'STDOUT not matching failure'
+            },'sub STDOUT not matching failure'
           );
 
 check_test( sub {
@@ -87,75 +87,75 @@ check_test( sub {
               ok => 0,
               name => 'Testing STDERR failure',
               diag => "STDOUT & STDERR are:\nTEST OUT\nnot:\nTEST OUT STDERR\nas expected\n",
-            },'STDERR not matching failure'
+            },'sub STDERR not matching failure'
           );
 
 check_test( sub {
             combined_is(sub {
-                      print "TEST ERR\n";
-                      print STDERR "TEST OUT\n"},
-                      "TEST ERR STDOUT\nTEST OUT STDERR\n",
+                      print "TEST ERR";
+                      print STDERR "TEST OUT"},
+                      "TEST ERR STDOUTTEST OUT STDERR",
                       'Testing STDERR failure'
                     )
             }, {
               ok => 0,
               name => 'Testing STDERR failure',
-              diag => "STDOUT & STDERR are:\nTEST ERR\nTEST OUT\n\nnot:\nTEST ERR STDOUT\nTEST OUT STDERR\n\nas expected\n",
-            },'STDOUT and STDERR not matching failure'
+              diag => "STDOUT & STDERR are:\nTEST ERRTEST OUT\nnot:\nTEST ERR STDOUTTEST OUT STDERR\nas expected\n",
+            },'sub STDOUT and STDERR not matching failure'
           );
 
 check_test( sub {
             combined_is {
-                        print "TEST OUT\n";
+                        print "TEST OUT";
                       }
-                      "TEST OUT\n",
+                      "TEST OUT",
                       'Testing STDOUT'
             },{
               ok => 1,
               name => 'Testing STDOUT',
               diag => '',
-            },'codeblock STDOUT matches success'
+            },'block STDOUT matches success'
           );
 
 check_test( sub {
             combined_is {
-                        print STDERR "TEST OUT\n";
+                        print STDERR "TEST OUT";
                       }
-                      "TEST OUT\n",
+                      "TEST OUT",
                       'Testing STDERR'
             },{
               ok => 1,
               name => 'Testing STDERR',
               diag => '',
-            },'STDERR matches success'
+            },'block STDERR matches success'
           );
 
 check_test( sub {
             combined_is {
-                        print "TEST OUT\n"; 
-                        print STDERR "TEST ERR\n";
-                        print "TEST OUT AGAIN\n"; 
+                        print "TEST OUT"; 
+                        print STDERR "TEST ERR";
+                        print "TEST OUT AGAIN"; 
                       }
-                      "TEST OUT\nTEST ERR\nTEST OUT AGAIN\n",
+                      "TEST OUTTEST ERRTEST OUT AGAIN",
                       'Testing STDOUT & STDERR'
             },{
               ok => 1,
               name => 'Testing STDOUT & STDERR',
               diag => '',
-            },'STDOUT & STDERR match success'
+            },'block STDOUT & STDERR match success'
           );
 
 check_test( sub {
             combined_is {
-                        printf("TEST OUT - %d\n",25);
+                        printf("TEST OUT - %d",25);
                       }
-                      "TEST OUT - 25\n",
+                      "TEST OUT - 25",
                       'Testing STDOUT printf'
             },{
               ok => 1,
               name => 'Testing STDOUT printf',
               diag => '',
-            },'STDOUT printf match success'
+            },'block STDOUT printf match success'
           );
 
 check_test( sub {
@@ -168,7 +168,7 @@ check_test( sub {
               ok => 0,
               name => 'Testing STDOUT failure',
               diag => "STDOUT & STDERR are:\nTEST OUT\nnot:\nTEST OUT STDOUT\nas expected\n",
-            },'STDOUT not matching failure'
+            },'block STDOUT not matching failure'
           );
 
 check_test( sub {
@@ -180,19 +180,208 @@ check_test( sub {
               ok => 0,
               name => 'Testing STDERR failure',
               diag => "STDOUT & STDERR are:\nTEST OUT\nnot:\nTEST OUT STDERR\nas expected\n",
-            },'STDERR not matching failure'
+            },'block STDERR not matching failure'
           );
 
 check_test( sub {
             combined_is {
-                      print "TEST ERR\n";
-                      print STDERR "TEST OUT\n"}
-                      "TEST ERR STDOUT\nTEST OUT STDERR\n",
+                      print "TEST ERR";
+                      print STDERR "TEST OUT"}
+                      "TEST ERR STDOUTTEST OUT STDERR",
                       'Testing STDERR failure'
             }, {
               ok => 0,
               name => 'Testing STDERR failure',
-              diag => "STDOUT & STDERR are:\nTEST ERR\nTEST OUT\n\nnot:\nTEST ERR STDOUT\nTEST OUT STDERR\n\nas expected\n",
-            },'STDOUT and STDERR not matching failure'
+              diag => "STDOUT & STDERR are:\nTEST ERRTEST OUT\nnot:\nTEST ERR STDOUTTEST OUT STDERR\nas expected\n",
+            },'block STDOUT and STDERR not matching failure'
           );
 
+check_test( sub {
+            combined_is {
+                        system("perl", "-e", "print qq(TEST OUT)");
+                      }
+                      "TEST OUT",
+                      'Testing system STDOUT'
+            },{
+              ok => 1,
+              name => 'Testing system STDOUT',
+              diag => '',
+            },'sub system STDOUT matches success'
+          );
+
+check_test( sub {
+            combined_is(sub {
+                        system("perl", "-e", "print STDERR qq(TEST OUT)");
+                      },
+                      "TEST OUT",
+                      'Testing STDERR'
+                    )
+            },{
+              ok => 1,
+              name => 'Testing STDERR',
+              diag => '',
+            },'sub system STDERR matches success'
+          );
+
+check_test( sub {
+            combined_is(sub {
+                        system("perl", "-e", "print qq(TEST OUT)");
+                        system("perl", "-e", "print STDERR qq(TEST ERR)");
+                        system("perl", "-e", "print qq(TEST AGAIN)");
+                      },
+                      "TEST OUTTEST ERRTEST AGAIN",
+                      'Testing STDOUT & STDERR'
+                    )
+            },{
+              ok => 1,
+              name => 'Testing STDOUT & STDERR',
+              diag => '',
+            },'sub system STDOUT & STDERR match success'
+          );
+
+check_test( sub {
+            combined_is(sub {
+                        system("perl", "-e", "printf qq(TEST OUT - %d), 25");
+                      },
+                      "TEST OUT - 25",
+                      'Testing STDOUT printf'
+                    )
+            },{
+              ok => 1,
+              name => 'Testing STDOUT printf',
+              diag => '',
+            },'sub system STDOUT printf match success'
+          );
+
+check_test( sub {
+            combined_is(sub {
+                        system("perl", "-e", "print qq(TEST OUT)");
+                      },
+                      "TEST OUT STDOUT",
+                      'Testing STDOUT failure'
+                    )
+            }, {
+              ok => 0,
+              name => 'Testing STDOUT failure',
+              diag => "STDOUT & STDERR are:\nTEST OUT\nnot:\nTEST OUT STDOUT\nas expected\n",
+            },'sub system STDOUT not matching failure'
+          );
+
+check_test( sub {
+            combined_is(sub {
+                      system("perl", "-e", "print STDERR qq(TEST OUT)")},
+                      "TEST OUT STDERR",
+                      'Testing STDERR failure'
+                    )
+            }, {
+              ok => 0,
+              name => 'Testing STDERR failure',
+              diag => "STDOUT & STDERR are:\nTEST OUT\nnot:\nTEST OUT STDERR\nas expected\n",
+            },'sub system STDERR not matching failure'
+          );
+
+check_test( sub {
+            combined_is(sub {
+                      system("perl", "-e", "print qq(TEST ERR)");
+                      system("perl", "-e", "print STDERR qq(TEST OUT)")},
+                      "TEST ERR STDOUTTEST OUT STDERR",
+                      'Testing STDERR failure'
+                    )
+            }, {
+              ok => 0,
+              name => 'Testing STDERR failure',
+              diag => "STDOUT & STDERR are:\nTEST ERRTEST OUT\nnot:\nTEST ERR STDOUTTEST OUT STDERR\nas expected\n",
+            },'sub system STDOUT and STDERR not matching failure'
+          );
+
+check_test( sub {
+            combined_is {
+                      system("perl", "-e", "print qq(TEST OUT)");
+                      }
+                      "TEST OUT",
+                      'Testing STDOUT'
+            },{
+              ok => 1,
+              name => 'Testing STDOUT',
+              diag => '',
+            },'block system STDOUT matches success'
+          );
+
+check_test( sub {
+            combined_is {
+                      system("perl", "-e", "print STDERR qq(TEST OUT)");
+                      }
+                      "TEST OUT",
+                      'Testing STDERR'
+            },{
+              ok => 1,
+              name => 'Testing STDERR',
+              diag => '',
+            },'block system STDERR matches success'
+          );
+
+check_test( sub {
+            combined_is {
+                      system("perl", "-e", "print qq(TEST OUT)");
+                      system("perl", "-e", "print STDERR qq(TEST ERR)");
+                      system("perl", "-e", "print qq(TEST OUT AGAIN)");
+                      }
+                      "TEST OUTTEST ERRTEST OUT AGAIN",
+                      'Testing STDOUT & STDERR'
+            },{
+              ok => 1,
+              name => 'Testing STDOUT & STDERR',
+              diag => '',
+            },'block system STDOUT & STDERR match success'
+          );
+
+check_test( sub {
+            combined_is {
+                        system("perl", "-e", "printf qq(TEST OUT - %d), 25");
+                      }
+                      "TEST OUT - 25",
+                      'Testing STDOUT printf'
+            },{
+              ok => 1,
+              name => 'Testing STDOUT printf',
+              diag => '',
+            },'block system STDOUT printf match success'
+          );
+
+check_test( sub {
+            combined_is {
+                      system("perl", "-e", "print qq(TEST OUT)");
+                      }
+                      "TEST OUT STDOUT",
+                      'Testing STDOUT failure'
+            }, {
+              ok => 0,
+              name => 'Testing STDOUT failure',
+              diag => "STDOUT & STDERR are:\nTEST OUT\nnot:\nTEST OUT STDOUT\nas expected\n",
+            },'block system STDOUT not matching failure'
+          );
+
+check_test( sub {
+            combined_is {
+                      system("perl", "-e", "print STDERR qq(TEST OUT)")}
+                      "TEST OUT STDERR",
+                      'Testing STDERR failure'
+            }, {
+              ok => 0,
+              name => 'Testing STDERR failure',
+              diag => "STDOUT & STDERR are:\nTEST OUT\nnot:\nTEST OUT STDERR\nas expected\n",
+            },'block system STDERR not matching failure'
+          );
+
+check_test( sub {
+            combined_is {
+                      system("perl", "-e", "print qq(TEST ERR)");
+                      system("perl", "-e", "print STDERR qq(TEST OUT)")}
+                      "TEST ERR STDOUTTEST OUT STDERR",
+                      'Testing STDERR failure'
+            }, {
+              ok => 0,
+              name => 'Testing STDERR failure',
+              diag => "STDOUT & STDERR are:\nTEST ERRTEST OUT\nnot:\nTEST ERR STDOUTTEST OUT STDERR\nas expected\n",
+            },'block system STDOUT and STDERR not matching failure'
+          );

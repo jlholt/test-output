@@ -5,7 +5,7 @@ use warnings;
 use strict;
 
 use Test::Builder;
-use Test::Output::Tie;
+use File::Temp qw(tempfile :seekable);
 use Sub::Exporter -setup => {
   exports => [
     qw(output_is output_isnt output_like output_unlike
@@ -59,13 +59,9 @@ my $Test = Test::Builder->new;
 
 Test::Output - Utilities to test STDOUT and STDERR messages.
 
-=head1 VERSION
-
-Version 0.16
-
 =cut
 
-$VERSION = '0.16';
+$VERSION = '0.15_01';
 
 =head1 SYNOPSIS
 
@@ -111,7 +107,8 @@ Originally this module was designed not to have external requirements,
 however, the features provided by L<Sub::Exporter> over what L<Exporter>
 provides is just to great to pass up.
 
-Test::Output ties STDOUT and STDERR using Test::Output::Tie.
+Previous versions tie'd STDOUT and STDERR but this one uses seekable
+temp files.
 
 =cut
 
@@ -817,18 +814,8 @@ stdout_from() executes $coderef and captures STDOUT.
 =cut
 
 sub stdout_from (&) {
-  my $test = shift;
-
-  select( ( select(STDOUT), $| = 1 )[0] );
-  my $out = tie *STDOUT, 'Test::Output::Tie';
-
-  &$test;
-  my $stdout = $out->read;
-
-  undef $out;
-  untie *STDOUT;
-
-  return $stdout;
+	my $test = shift;
+	return _getfrom($test, 1, 0);
 }
 
 =head2 stderr_from
@@ -841,21 +828,7 @@ stderr_from() executes $coderef and captures STDERR.
 =cut
 
 sub stderr_from (&) {
-  my $test = shift;
-
-  local $SIG{__WARN__} = sub { print STDERR @_ }
-    if $] < 5.008;
-  
-  select( ( select(STDERR), $| = 1 )[0] );
-  my $err = tie *STDERR, 'Test::Output::Tie';
-
-  &$test;
-  my $stderr = $err->read;
-
-  undef $err;
-  untie *STDERR;
-
-  return $stderr;
+  return _getfrom(shift, 0, 1);
 }
 
 =head2 output_from
@@ -868,23 +841,7 @@ output_from() executes $coderef one time capturing both STDOUT and STDERR.
 =cut
 
 sub output_from (&) {
-  my $test = shift;
-
-  select( ( select(STDOUT), $| = 1 )[0] );
-  select( ( select(STDERR), $| = 1 )[0] );
-  my $out = tie *STDOUT, 'Test::Output::Tie';
-  my $err = tie *STDERR, 'Test::Output::Tie';
-
-  &$test;
-  my $stdout = $out->read;
-  my $stderr = $err->read;
-
-  undef $out;
-  undef $err;
-  untie *STDOUT;
-  untie *STDERR;
-
-  return ( $stdout, $stderr );
+  return _getfrom(shift, 1, 1);
 }
 
 =head2 combined_from
@@ -893,32 +850,12 @@ sub output_from (&) {
   my $combined = combined_from {...};
 
 combined_from() executes $coderef one time combines STDOUT and STDERR, and
-captures them. combined_from() is equivalent to using 2>&1 in UNIX.
+captures them. combined_from() is equivalent to using 2>&1 in UNIX and Windows.
 
 =cut
 
 sub combined_from (&) {
-  my $test = shift;
-
-  select( ( select(STDOUT), $| = 1 )[0] );
-  select( ( select(STDERR), $| = 1 )[0] );
-
-  open( STDERR, ">&STDOUT" );
-
-  my $out = tie *STDOUT, 'Test::Output::Tie';
-  tie *STDERR, 'Test::Output::Tie', $out;
-
-  &$test;
-  my $combined = $out->read;
-
-  undef $out;
-  {
-  no warnings;
-  untie *STDOUT;
-  untie *STDERR;
-  }
-  
-  return ($combined);
+  return _getfrom(shift, 1, 1);
 }
 
 sub _chkregex {
@@ -938,6 +875,60 @@ sub _chkregex {
     }
   }
   return 1;
+}
+
+sub _slurp ($) {
+	my $h = shift;
+	$h->seek(0, 0) || die "can't seek: $!";
+	return join("", <$h>);
+}
+
+sub _getfrom ($$$) {
+	my ($test, $capout, $caperr) = @_;
+	my ($oldout, $olderr);
+	my ($tmpout, $tmperr);
+
+	if ($capout) {
+		open $oldout, ">&STDOUT" or die "can't dup STDIN: $!";
+		$tmpout = new File::Temp() || die "couldn't create a temporary file to redirect STDOUT: $!";
+		open STDOUT, ">&", $tmpout or die "can't make STDOUT a copy of temp handle: $!";
+	}
+
+	if ($caperr) {
+		open $olderr, ">&STDERR" or die "can't dup STDERR: $!";
+		if (($capout && wantarray) || !$capout) {
+			$tmperr = new File::Temp() || die "couldn't create a temporary file to redirect STDERR: $!";
+			open STDERR, ">&", $tmperr or die "can't make STDERR a copy of temp handle: $!";
+		} else {
+			open STDERR, ">&STDOUT" or die "can't make STDERR a copy of STDOUT: $!";
+		}
+	}
+
+	&$test;
+
+	if ($tmpout) {
+		if ($tmperr) {
+			my ($out, $err) = (_slurp($tmpout), _slurp($tmperr));
+			open STDOUT, ">&", $oldout or die "can't restore STDOUT: $!";
+			open STDERR, ">&", $olderr or die "can't restore STDERR: $!";
+			close($tmpout);
+			close($tmperr);
+			File::Temp::cleanup();	# This should work but does not (but it's bugged)
+			return $out, $err;
+		} else {
+			my $out = _slurp($tmpout);
+			open STDOUT, ">&", $oldout or die "can't restore STDOUT: $!";
+			close($tmpout);
+			File::Temp::cleanup();	# This should work but does not (but it's bugged)
+			return $out;
+		}
+	} else {
+		my $err = _slurp($tmperr);
+		open STDERR, ">&", $olderr or die "can't restore STDERR: $!";
+		close($tmperr);
+		File::Temp::cleanup();	# This should work but does not (but it's bugged)
+		return $err;
+	}
 }
 
 =head1 AUTHOR

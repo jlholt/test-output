@@ -1,5 +1,5 @@
 use Test::Tester;
-use Test::More tests => 112;
+use Test::More tests => 224;
 use Test::Output;
 
 use strict;
@@ -18,7 +18,7 @@ check_test( sub {
               ok => 1,
               name => 'Testing STDOUT and STDERR match',
               diag => '',
-            },'STDOUT and STDOUT not matching success'
+            },'sub STDOUT and STDOUT not matching success'
           );
 
 check_test( sub {
@@ -34,7 +34,7 @@ check_test( sub {
               ok => 1,
               name => 'Testing STDOUT and STDERR match',
               diag => '',
-            },'STDOUT and STDOUT not matching success'
+            },'sub STDOUT and STDOUT not matching success'
           );
 
 check_test( sub {
@@ -50,7 +50,7 @@ check_test( sub {
               ok => 1,
               name => 'Testing STDOUT and STDERR match',
               diag => '',
-            },'STDOUT and STDOUT not matching success'
+            },'sub STDOUT and STDOUT not matching success'
           );
 
 check_test( sub {
@@ -67,7 +67,7 @@ check_test( sub {
               depth => 2,
               name => 'output_unlike_STDOUT',
               diag => "'OUT' doesn't look much like a regex to me.\n",
-            },'STDOUT bad regex'
+            },'sub STDOUT bad regex'
           );
 
 check_test( sub {
@@ -84,13 +84,13 @@ check_test( sub {
               depth => 2,
               name => 'output_unlike_STDERR',
               diag => "'OUT' doesn't look much like a regex to me.\n",
-            },'STDERR bad regex'
+            },'sub STDERR bad regex'
           );
 
 check_test( sub {
             output_unlike(sub {
                         print "TEST OUT\n";
-                        print STDERR "TEST ERR\n";
+                        print STDERR "TEST ERR";
                       },
                       qr/out/,
                       qr/ERR/i,
@@ -99,14 +99,14 @@ check_test( sub {
             },{
               ok => 0,
               name => 'Testing STDOUT and STDERR match',
-              diag => "STDERR:\nTEST ERR\n\nmatches:\n(?i-xsm:ERR)\nnot expected\n",
-            },'STDERR matching failure'
+              diag => "STDERR:\nTEST ERR\nmatches:\n(?i-xsm:ERR)\nnot expected\n",
+            },'sub STDERR matching failure'
           );
 
 check_test( sub {
             output_unlike(sub {
-                        print "TEST OUT\n";
-                        print STDERR "TEST ERR\n";
+                        print "TEST OUT";
+                        print STDERR "TEST ERR";
                       },
                       qr/out/i,
                       qr/err/,
@@ -115,14 +115,14 @@ check_test( sub {
             },{
               ok => 0,
               name => 'Testing STDOUT and STDERR match',
-              diag => "STDOUT:\nTEST OUT\n\nmatches:\n(?i-xsm:out)\nnot expected\n",
-            },'STDOUT matching failure'
+              diag => "STDOUT:\nTEST OUT\nmatches:\n(?i-xsm:out)\nnot expected\n",
+            },'sub STDOUT matching failure'
           );
 
 check_test( sub {
             output_unlike(sub {
-                        print "TEST OUT\n";
-                        print STDERR "TEST ERR\n";
+                        print "TEST OUT";
+                        print STDERR "TEST ERR";
                       },
                       qr/OUT/,
                       qr/ERR/,
@@ -131,8 +131,8 @@ check_test( sub {
             },{
               ok => 0,
               name => 'Testing STDOUT and STDERR match',
-              diag => "STDOUT:\nTEST OUT\n\nmatches:\n(?-xism:OUT)\nnot expected\nSTDERR:\nTEST ERR\n\nmatches:\n(?-xism:ERR)\nnot expected\n",
-            },'STDERR matching failure'
+              diag => "STDOUT:\nTEST OUT\nmatches:\n(?-xism:OUT)\nnot expected\nSTDERR:\nTEST ERR\nmatches:\n(?-xism:ERR)\nnot expected\n",
+            },'sub STDERR matching failure'
           );
 
 check_test( sub {
@@ -147,7 +147,7 @@ check_test( sub {
               ok => 1,
               name => 'Testing STDOUT and STDERR match',
               diag => '',
-            },'STDOUT and STDOUT not matching success'
+            },'block STDOUT and STDOUT not matching success'
           );
 
 check_test( sub {
@@ -162,7 +162,7 @@ check_test( sub {
               ok => 1,
               name => 'Testing STDOUT and STDERR match',
               diag => '',
-            },'STDOUT and STDOUT not matching success'
+            },'block STDOUT and STDOUT not matching success'
           );
 
 check_test( sub {
@@ -177,7 +177,7 @@ check_test( sub {
               ok => 1,
               name => 'Testing STDOUT and STDERR match',
               diag => '',
-            },'STDOUT and STDOUT not matching success'
+            },'block STDOUT and STDOUT not matching success'
           );
 
 check_test( sub {
@@ -193,7 +193,7 @@ check_test( sub {
               depth => 2,
               name => 'output_unlike_STDOUT',
               diag => "'OUT' doesn't look much like a regex to me.\n",
-            },'STDOUT bad regex'
+            },'block STDOUT bad regex'
           );
 
 check_test( sub {
@@ -209,13 +209,13 @@ check_test( sub {
               depth => 2,
               name => 'output_unlike_STDERR',
               diag => "'OUT' doesn't look much like a regex to me.\n",
-            },'STDERR bad regex'
+            },'block STDERR bad regex'
           );
 
 check_test( sub {
             output_unlike {
-                        print "TEST OUT\n";
-                        print STDERR "TEST ERR\n";
+                        print "TEST OUT";
+                        print STDERR "TEST ERR";
                       }
                       qr/out/,
                       qr/ERR/i,
@@ -223,14 +223,14 @@ check_test( sub {
             },{
               ok => 0,
               name => 'Testing STDOUT and STDERR match',
-              diag => "STDERR:\nTEST ERR\n\nmatches:\n(?i-xsm:ERR)\nnot expected\n",
-            },'STDERR matching failure'
+              diag => "STDERR:\nTEST ERR\nmatches:\n(?i-xsm:ERR)\nnot expected\n",
+            },'block STDERR matching failure'
           );
 
 check_test( sub {
             output_unlike {
-                        print "TEST OUT\n";
-                        print STDERR "TEST ERR\n";
+                        print "TEST OUT";
+                        print STDERR "TEST ERR";
                       }
                       qr/out/i,
                       qr/err/,
@@ -238,14 +238,14 @@ check_test( sub {
             },{
               ok => 0,
               name => 'Testing STDOUT and STDERR match',
-              diag => "STDOUT:\nTEST OUT\n\nmatches:\n(?i-xsm:out)\nnot expected\n",
-            },'STDOUT matching failure'
+              diag => "STDOUT:\nTEST OUT\nmatches:\n(?i-xsm:out)\nnot expected\n",
+            },'block STDOUT matching failure'
           );
 
 check_test( sub {
             output_unlike {
-                        print "TEST OUT\n";
-                        print STDERR "TEST ERR\n";
+                        print "TEST OUT";
+                        print STDERR "TEST ERR";
                       }
                       qr/OUT/,
                       qr/ERR/,
@@ -253,6 +253,258 @@ check_test( sub {
             },{
               ok => 0,
               name => 'Testing STDOUT and STDERR match',
-              diag => "STDOUT:\nTEST OUT\n\nmatches:\n(?-xism:OUT)\nnot expected\nSTDERR:\nTEST ERR\n\nmatches:\n(?-xism:ERR)\nnot expected\n",
-            },'STDERR matching failure'
+              diag => "STDOUT:\nTEST OUT\nmatches:\n(?-xism:OUT)\nnot expected\nSTDERR:\nTEST ERR\nmatches:\n(?-xism:ERR)\nnot expected\n",
+            },'block STDERR matching failure'
+          );
+
+check_test( sub {
+            output_unlike(sub {
+                        system("perl", "-e", "print qq(TEST OUT)");
+                        system("perl", "-e", "print STDERR qq(TEST ERR)");
+                      },
+                      qr/ERR/i,
+                      qr/OUT/i,
+                      'Testing STDOUT and STDERR match'
+                    )
+            },{
+              ok => 1,
+              name => 'Testing STDOUT and STDERR match',
+              diag => '',
+            },'sub system STDOUT and STDOUT not matching success'
+          );
+
+check_test( sub {
+            output_unlike(sub {
+                        system("perl", "-e", "print qq(TEST OUT)");
+                        system("perl", "-e", "print STDERR qq(TEST ERR)");
+                      },
+                      undef,
+                      qr/OUT/i,
+                      'Testing STDOUT and STDERR match'
+                    )
+            },{
+              ok => 1,
+              name => 'Testing STDOUT and STDERR match',
+              diag => '',
+            },'sub system STDOUT and STDOUT not matching success'
+          );
+
+check_test( sub {
+            output_unlike(sub {
+                        system("perl", "-e", "print qq(TEST OUT)");
+                        system("perl", "-e", "print STDERR qq(TEST ERR)");
+                      },
+                      qr/ERR/i,
+                      undef,
+                      'Testing STDOUT and STDERR match'
+                    )
+            },{
+              ok => 1,
+              name => 'Testing STDOUT and STDERR match',
+              diag => '',
+            },'sub system STDOUT and STDOUT not matching success'
+          );
+
+check_test( sub {
+            output_unlike(sub {
+                        system("perl", "-e", "print qq(TEST OUT)");
+                        system("perl", "-e", "print STDERR qq(TEST ERR)");
+                      },
+                      'OUT',
+                      qr/err/,
+                      'Testing STDOUT and STDERR match'
+                    )
+            },{
+              ok => 0,
+              depth => 2,
+              name => 'output_unlike_STDOUT',
+              diag => "'OUT' doesn't look much like a regex to me.\n",
+            },'sub system STDOUT bad regex'
+          );
+
+check_test( sub {
+            output_unlike(sub {
+                        system("perl", "-e", "print qq(TEST OUT)");
+                        system("perl", "-e", "print STDERR qq(TEST ERR)");
+                      },
+                      qr/OUT/i,
+                      'OUT',
+                      'Testing STDOUT and STDERR match'
+                    )
+            },{
+              ok => 0,
+              depth => 2,
+              name => 'output_unlike_STDERR',
+              diag => "'OUT' doesn't look much like a regex to me.\n",
+            },'sub system STDERR bad regex'
+          );
+
+check_test( sub {
+            output_unlike(sub {
+                        system("perl", "-e", "print qq(TEST OUT)");
+                        system("perl", "-e", "print STDERR qq(TEST ERR)");
+                      },
+                      qr/out/,
+                      qr/ERR/i,
+                      'Testing STDOUT and STDERR match'
+                    )
+            },{
+              ok => 0,
+              name => 'Testing STDOUT and STDERR match',
+              diag => "STDERR:\nTEST ERR\nmatches:\n(?i-xsm:ERR)\nnot expected\n",
+            },'sub system STDERR matching failure'
+          );
+
+check_test( sub {
+            output_unlike(sub {
+                        system("perl", "-e", "print qq(TEST OUT)");
+                        system("perl", "-e", "print STDERR qq(TEST ERR)");
+                      },
+                      qr/out/i,
+                      qr/err/,
+                      'Testing STDOUT and STDERR match'
+                    )
+            },{
+              ok => 0,
+              name => 'Testing STDOUT and STDERR match',
+              diag => "STDOUT:\nTEST OUT\nmatches:\n(?i-xsm:out)\nnot expected\n",
+            },'sub system STDOUT matching failure'
+          );
+
+check_test( sub {
+            output_unlike(sub {
+                        system("perl", "-e", "print qq(TEST OUT)");
+                        system("perl", "-e", "print STDERR qq(TEST ERR)");
+                      },
+                      qr/OUT/,
+                      qr/ERR/,
+                      'Testing STDOUT and STDERR match'
+                    )
+            },{
+              ok => 0,
+              name => 'Testing STDOUT and STDERR match',
+              diag => "STDOUT:\nTEST OUT\nmatches:\n(?-xism:OUT)\nnot expected\nSTDERR:\nTEST ERR\nmatches:\n(?-xism:ERR)\nnot expected\n",
+            },'sub system STDERR matching failure'
+          );
+
+check_test( sub {
+            output_unlike {
+                        system("perl", "-e", "print qq(TEST OUT)");
+                        system("perl", "-e", "print STDERR qq(TEST ERR)");
+                      }
+                      qr/ERR/i,
+                      qr/OUT/i,
+                      'Testing STDOUT and STDERR match'
+            },{
+              ok => 1,
+              name => 'Testing STDOUT and STDERR match',
+              diag => '',
+            },'block system STDOUT and STDOUT not matching success'
+          );
+
+check_test( sub {
+            output_unlike {
+                        system("perl", "-e", "print qq(TEST OUT)");
+                        system("perl", "-e", "print STDERR qq(TEST ERR)");
+                      }
+                      undef,
+                      qr/OUT/i,
+                      'Testing STDOUT and STDERR match'
+            },{
+              ok => 1,
+              name => 'Testing STDOUT and STDERR match',
+              diag => '',
+            },'block system STDOUT and STDOUT not matching success'
+          );
+
+check_test( sub {
+            output_unlike {
+                        system("perl", "-e", "print qq(TEST OUT)");
+                        system("perl", "-e", "print STDERR qq(TEST ERR)");
+                      }
+                      qr/ERR/i,
+                      undef,
+                      'Testing STDOUT and STDERR match'
+            },{
+              ok => 1,
+              name => 'Testing STDOUT and STDERR match',
+              diag => '',
+            },'block system STDOUT and STDOUT not matching success'
+          );
+
+check_test( sub {
+            output_unlike {
+                        system("perl", "-e", "print qq(TEST OUT)");
+                        system("perl", "-e", "print STDERR qq(TEST ERR)");
+                      }
+                      'OUT',
+                      qr/err/,
+                      'Testing STDOUT and STDERR match'
+            },{
+              ok => 0,
+              depth => 2,
+              name => 'output_unlike_STDOUT',
+              diag => "'OUT' doesn't look much like a regex to me.\n",
+            },'block system STDOUT bad regex'
+          );
+
+check_test( sub {
+            output_unlike {
+                        system("perl", "-e", "print qq(TEST OUT)");
+                        system("perl", "-e", "print STDERR qq(TEST ERR)");
+                      }
+                      qr/OUT/i,
+                      'OUT',
+                      'Testing STDOUT and STDERR match'
+            },{
+              ok => 0,
+              depth => 2,
+              name => 'output_unlike_STDERR',
+              diag => "'OUT' doesn't look much like a regex to me.\n",
+            },'block system STDERR bad regex'
+          );
+
+check_test( sub {
+            output_unlike {
+                        system("perl", "-e", "print qq(TEST OUT)");
+                        system("perl", "-e", "print STDERR qq(TEST ERR)");
+                      }
+                      qr/out/,
+                      qr/ERR/i,
+                      'Testing STDOUT and STDERR match'
+            },{
+              ok => 0,
+              name => 'Testing STDOUT and STDERR match',
+              diag => "STDERR:\nTEST ERR\nmatches:\n(?i-xsm:ERR)\nnot expected\n",
+            },'block system STDERR matching failure'
+          );
+
+check_test( sub {
+            output_unlike {
+                        system("perl", "-e", "print qq(TEST OUT)");
+                        system("perl", "-e", "print STDERR qq(TEST ERR)");
+                      }
+                      qr/out/i,
+                      qr/err/,
+                      'Testing STDOUT and STDERR match'
+            },{
+              ok => 0,
+              name => 'Testing STDOUT and STDERR match',
+              diag => "STDOUT:\nTEST OUT\nmatches:\n(?i-xsm:out)\nnot expected\n",
+            },'block system STDOUT matching failure'
+          );
+
+check_test( sub {
+            output_unlike {
+                        system("perl", "-e", "print qq(TEST OUT)");
+                        system("perl", "-e", "print STDERR qq(TEST ERR)");
+                      }
+                      qr/OUT/,
+                      qr/ERR/,
+                      'Testing STDOUT and STDERR match'
+            },{
+              ok => 0,
+              name => 'Testing STDOUT and STDERR match',
+              diag => "STDOUT:\nTEST OUT\nmatches:\n(?-xism:OUT)\nnot expected\nSTDERR:\nTEST ERR\nmatches:\n(?-xism:ERR)\nnot expected\n",
+            },'block system STDERR matching failure'
           );

@@ -1,6 +1,5 @@
 Changes
 lib/Test/Output.pm
-lib/Test/Output/Tie.pm
 LICENSE
 Makefile.PL
 MANIFEST
@@ -19,6 +18,7 @@ t/output_like.t
 t/output_unlike.t
 t/pod-coverage.t
 t/pod.t
+t/rt.t
 t/stderr_is.t
 t/stderr_isnt.t
 t/stderr_like.t

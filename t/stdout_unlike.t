@@ -1,5 +1,5 @@
 use Test::Tester;
-use Test::More tests => 42;
+use Test::More tests => 84;
 use Test::Output;
 
 use strict;
@@ -16,7 +16,7 @@ check_test( sub {
               ok => 1,
               name => 'Testing STDOUT',
               diag => '',
-            },'STDOUT not matching success'
+            },'sub STDOUT not matching success'
           );
 
 check_test( sub {
@@ -31,12 +31,12 @@ check_test( sub {
               depth => 2,
               name => 'stdout_unlike',
               diag => "'OUT' doesn't look much like a regex to me.\n",
-            },'bad regex'
+            },'sub bad regex'
           );
 
 check_test( sub {
             stdout_unlike(sub {
-                        print "TEST OUT\n";
+                        print "TEST OUT";
                       },
                       qr/OUT/,
                       'Testing STDOUT'
@@ -44,8 +44,8 @@ check_test( sub {
             },{
               ok => 0,
               name => 'Testing STDOUT',
-              diag => "STDOUT:\nTEST OUT\n\nmatches:\n(?-xism:OUT)\nnot expected\n",
-            },'STDOUT matching failure'
+              diag => "STDOUT:\nTEST OUT\nmatches:\n(?-xism:OUT)\nnot expected\n",
+            },'sub STDOUT matching failure'
           );
 
 check_test( sub {
@@ -58,7 +58,7 @@ check_test( sub {
               ok => 1,
               name => 'Testing STDOUT',
               diag => '',
-            },'STDOUT not matching success'
+            },'block STDOUT not matching success'
           );
 
 check_test( sub {
@@ -72,19 +72,102 @@ check_test( sub {
               depth => 2,
               name => 'stdout_unlike',
               diag => "'OUT' doesn't look much like a regex to me.\n",
-            },'bad regex'
+            },'block bad regex'
           );
 
 check_test( sub {
             stdout_unlike {
-                        print "TEST OUT\n";
+                        print "TEST OUT";
                       }
                       qr/OUT/,
                       'Testing STDOUT'
             },{
               ok => 0,
               name => 'Testing STDOUT',
-              diag => "STDOUT:\nTEST OUT\n\nmatches:\n(?-xism:OUT)\nnot expected\n",
-            },'STDOUT matching failure'
+              diag => "STDOUT:\nTEST OUT\nmatches:\n(?-xism:OUT)\nnot expected\n",
+            },'block STDOUT matching failure'
+          );
+
+check_test( sub {
+            stdout_unlike(sub {
+                        system("perl", "-e", "print qq(TEST OUT)");
+                      },
+                      qr/out/,
+                      'Testing STDOUT'
+                    )
+            },{
+              ok => 1,
+              name => 'Testing STDOUT',
+              diag => '',
+            },'sub system STDOUT not matching success'
+          );
+
+check_test( sub {
+            stdout_unlike(sub {
+                        system("perl", "-e", "print qq(TEST OUT)");
+                      },
+                      'OUT',
+                      'Testing STDOUT'
+                    )
+            },{
+              ok => 0,
+              depth => 2,
+              name => 'stdout_unlike',
+              diag => "'OUT' doesn't look much like a regex to me.\n",
+            },'sub system bad regex'
+          );
+
+check_test( sub {
+            stdout_unlike(sub {
+                        system("perl", "-e", "print qq(TEST OUT)");
+                      },
+                      qr/OUT/,
+                      'Testing STDOUT'
+                    )
+            },{
+              ok => 0,
+              name => 'Testing STDOUT',
+              diag => "STDOUT:\nTEST OUT\nmatches:\n(?-xism:OUT)\nnot expected\n",
+            },'sub system STDOUT matching failure'
+          );
+
+check_test( sub {
+            stdout_unlike {
+                        system("perl", "-e", "print qq(TEST OUT)");
+                      }
+                      qr/out/,
+                      'Testing STDOUT'
+            },{
+              ok => 1,
+              name => 'Testing STDOUT',
+              diag => '',
+            },'block system STDOUT not matching success'
+          );
+
+check_test( sub {
+            stdout_unlike {
+                        system("perl", "-e", "print qq(TEST OUT)");
+                      }
+                      'OUT',
+                      'Testing STDOUT'
+            },{
+              ok => 0,
+              depth => 2,
+              name => 'stdout_unlike',
+              diag => "'OUT' doesn't look much like a regex to me.\n",
+            },'block system bad regex'
+          );
+
+check_test( sub {
+            stdout_unlike {
+                        system("perl", "-e", "print qq(TEST OUT)");
+                      }
+                      qr/OUT/,
+                      'Testing STDOUT'
+            },{
+              ok => 0,
+              name => 'Testing STDOUT',
+              diag => "STDOUT:\nTEST OUT\nmatches:\n(?-xism:OUT)\nnot expected\n",
+            },'block system STDOUT matching failure'
           );
 
